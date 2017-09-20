@@ -1,0 +1,12 @@
+{
+	"scripts": {
+		"build": "",
+		"postpublish": ""
+	},
+	"dist": "index",
+	"output": "",
+	"urlPrefix": "/",
+	"static-src": "",
+	"env": "dev",
+	"name":"arf"
+}

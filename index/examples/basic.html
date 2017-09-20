@@ -1,0 +1,58 @@
+<!-- include a-frame -->
+<script src="vendor/aframe/build/aframe.min.js"></script>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<!-- include ar.js for aframe -->
+
+<script>
+	AFRAME.registerComponent('cursor-listener', {
+		init: function () {
+			var COLORS = ['red', 'green', 'blue'];
+			this.el.addEventListener('click', function (evt) {
+				var randomIndex = Math.floor(Math.random() * COLORS.length);
+				this.setAttribute('material', 'color', COLORS[randomIndex]);
+				console.log('I was clicked at: ', evt.detail.intersection.point);
+			});
+		}
+	});
+</script>
+<!-- start the body of your page -->
+<body style='margin : 0px; overflow: hidden;'>
+	<!-- add some info at the top of the page -->
+	<div style='position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;'>
+		<a href="https://github.com/jeromeetienne/AR.js/" target="_blank">AR.js</a> - tango example for a-frame by <a href='https://twitter.com/jerome_etienne' target='_blank'>@jerome_etienne</a>
+	</div>
+
+	<!-- Define your 3d scene and enabled ar.js -->
+	<a-scene embedded>
+			<!-- <a-link href="http://baidu.com" title="smg" color="#4CC3D9" image="https://avatars3.githubusercontent.com/u/8502944?v=4&s=460" position='0 1.6 -1' rotation="0 0 0">
+			</a-link> -->
+
+
+			<a-assets>
+				<a-asset-item id="tree" src="file.dae"></a-asset-item>
+				<img id="my-image" src="3.jpeg">
+			  </a-assets>
+
+			  <!-- Using the asset management system. -->
+			  <a-curvedimage src="#my-image" cursor-listener height="3.0" radius="5.7" theta-length="72"
+							 rotation="0 100 0" scale="0.8 0.8 0.8"></a-curvedimage>
+			  <!-- Defining the URL inline. Not recommended but more comfortable for web developers. -->
+
+			<!-- <a-video src="#penguin-sledding" width="16" height="9" position="0 0 -20"></a-video> -->
+			<!-- Defining the URL inline. Not recommended but more comfortable for web developers. -->
+			<!-- <a-video src="krystal.mp4" cursor-listener webkit-playsinline playsinline  width="16" height="9" position="0 0 -20"></a-video> -->
+			<!-- Add your augmented reality here -->
+			<!-- <a-box position='0 2.5 0' material='opacity: 0.5; side:double; color:red;'>
+				<a-torus-knot radius='0.26' radius-tubular='0.05'>
+					<a-animation attribute="rotation" to="360 0 0" dur="5000" easing='linear' repeat="indefinite"></a-animation>
+				</a-torus-knot>
+			</a-box> -->
+
+			<a-camera>
+				<a-cursor></a-cursor>
+			</a-camera>
+
+		<!-- Define a static camera -->
+
+	</a-scene>
+</body>
