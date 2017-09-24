@@ -1,5 +1,4 @@
-/data/*
 
-/index/examples/wolft/*
-/index/examples/*.mp4
-/index/Makefile
+/index/html/wolft/*
+/index/html/*.mp4
+/index/makefile
