@@ -1,0 +1,122 @@
+<!-- include a-frame -->
+<!-- <script src="vendor/aframe/build/aframe.min.js"></script> -->
+<script src="../aframe-master.js"></script>
+<script src='../build/aframe-ar.js'></script>
+<!-- <script>ARjs.Context.baseURL = '../../three.js/'</script> -->
+<script src="https://unpkg.com/aframe-template-component@3.x.x/dist/aframe-template-component.min.js"></script>
+<script src="https://unpkg.com/aframe-layout-component@3.x.x/dist/aframe-layout-component.min.js"></script>
+<script src="https://unpkg.com/aframe-event-set-component@3.x.x/dist/aframe-event-set-component.min.js"></script>
+<script src="../aframe-extra.js"></script>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<!-- include ar.js for aframe -->
+
+<script>
+
+
+	// AFRAME.registerComponent('cursor-listener', {
+	// 	init: function () {
+    //         var COLORS = ['red', 'green', 'blue'];
+    //         console.log(this.el)
+	// 		this.el.addEventListener('click', function (evt) {
+
+	// 			var randomIndex = Math.floor(Math.random() * COLORS.length);
+    //             this.setAttribute('material', 'color', COLORS[randomIndex]);
+    //             document.querySelector("#krystal").emit("start")
+    //             // document.querySelector("#text").setAttribute("value","you clicked me ")
+	// 			console.log('I was clicked at: ', evt.detail.intersection.point);
+	// 		});
+	// 	}
+	// });
+
+
+    AFRAME.registerComponent('animation-control', {
+      schema: {
+        default: ''
+      },
+      init() {
+
+        const bot = document.querySelector('#bot');
+        var scene = document.querySelector('a-scene');
+        this.el.addEventListener('click', () => {
+            bot.setAttribute("animation-mixer", this.data);
+            // scene.removeEventListener('animation-loop', jumpTrans);
+            // prevData = this.data;
+        });
+      }
+    });
+
+    AFRAME.registerComponent('raycaster-refresh', {
+    init: function () {
+        var sceneEl = this.el.sceneEl;
+        sceneEl.addEventListener('object3dset', function () {
+        var raycasterEl = sceneEl.querySelector('[raycaster]');
+        raycasterEl.components.raycaster.refreshObjects();
+        });
+    }
+    });
+</script>
+<!-- start the body of your page -->
+<body style='margin : 0px; overflow: hidden;'>
+
+
+	<!-- Define your 3d scene and enabled ar.js -->
+	<a-scene embedded arjs='trackingMethod: best;' raycaster-refresh>
+			<!-- <a-link href="http://baidu.com" title="smg" color="#4CC3D9" image="https://avatars3.githubusercontent.com/u/8502944?v=4&s=460" position='0 1.6 -1' rotation="0 0 0">
+			</a-link> -->
+
+			<a-assets>
+                <img id="krystal1" src="bb.jpeg">
+                <img id="krystal2" src="3.jpeg">
+                <img id="krystal3" src="bb2.jpeg">
+                <a-asset-item id="monster" src="monster/monster.dae"></a-asset-item>
+                <a-asset-item id="witch" src="witch/scene.gltf"></a-asset-item>
+                
+                <img id="city" crossorigin="anonymous" src="./city.jpg">
+                <img id="p2" src="./sechelt.jpg">
+                <img id="p3" src="./cubes.jpg">
+
+
+                <script id="plane" type="text/html">
+                    <a-entity class="link"
+                      geometry="primitive: plane; height: 1; width: 1.6"
+                      material="shader: flat; src: ${thumb}"
+                      event-set__1="_event: mousedown; scale: 1 1 1"
+                      event-set__2="_event: mouseup; scale: 1.2 1.2 1"
+                      event-set__3="_event: mouseenter; scale: 1.2 1.2 1"
+                      event-set__4="_event: mouseleave; scale: 1 1 1"
+                      set-image="on: click; target: #image-360; src: ${src}"
+                    ></a-entity>
+                  </script>
+            </a-assets>
+			
+
+			<a-entity id="krystal">
+                <a-entity collada-model="#monster" material="color: green" scale="0.12 0.12 0.12"
+                position="0 0 10" rotation="0 120 0"></a-entity>
+                <!-- <a-animation attribute="position" begin="start"  to="0 2 -5"></a-animation> -->
+            </a-entity>
+
+            <a-entity id="bot" cursor-listener class="clickable" animation-control="clip: run; crossFadeDuration: .3" scale="3.5 3.5 3.5" position="0 -4 -6" rotation="0 0 0" animation-mixer="clip: idle"
+            json-model="src: url(models/bot4.json);"></a-entity>
+
+            <a-entity cursor-listener class="clickable"  scale="2 2 2" position="5 0 -4" rotation="0 -45 0" 
+            gltf-model="#witch"></a-entity>
+            
+            <a-entity class="clickable" template="src: #plane"  data-src="#city" data-thumb="#krystal1" position="-2 1crossFadeDuration.6 -5"></a-entity>
+            <a-entity class="clickable" template="src: #plane" data-src="#p3" data-thumb="#krystal2" position=" 2 1.6 -5" ></a-entity>
+            <a-entity class="clickable" template="src: #plane" data-src="#p2" data-thumb="#krystal3" position=" 0 3 -5" ></a-entity>
+			<a-camera>
+				<a-cursor id="cursor"
+				animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+				animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+				event-set__1="_event: mouseenter; color: springgreen"
+				event-set__2="_event: mouseleave; color: black"
+				fuse="true"
+				raycaster="objects: .clickable"
+				></a-cursor>
+		</a-camera>
+
+		<!-- Define a static camera -->
+
+	</a-scene>
+</body>
